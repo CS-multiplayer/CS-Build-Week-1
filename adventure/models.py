@@ -17,7 +17,7 @@ class Room(models.Model):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
 
-    def connectRooms(self, destinationRoom, direction):
+    def connect_rooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
             destinationRoom = Room.objects.get(id=destinationRoomID)
