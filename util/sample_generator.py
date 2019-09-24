@@ -20,9 +20,23 @@ class Room:
         self.y = y
 
     def __repr__(self):
-        if self.e_to is not None:
-            return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
-        return f"({self.x}, {self.y})"
+        n_to = self.n_to
+        s_to = self.s_to
+        e_to = self.e_to
+        w_to = self.w_to
+        if n_to:
+            n_to = self.n_to.id
+        if s_to:
+            s_to = self.s_to.id
+        if e_to:
+            e_to = self.e_to.id
+        if w_to:
+            w_to = self.w_to.id
+
+        return f"id:{self.id}, name:{self.name}, description:{self.description}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}, x:{self.x}, y:{self.y}"
+        # if self.e_to is not None:
+        #     return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
+        # return f"({self.x}, {self.y})"
 
     def connect_rooms(self, connecting_room, direction):
         '''
@@ -205,4 +219,6 @@ w.print_rooms()
 
 print(w.grid[0][10])
 print(
-f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n\n\n")
+
+print(w.grid)

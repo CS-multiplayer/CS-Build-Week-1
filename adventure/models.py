@@ -17,6 +17,22 @@ class Room(models.Model):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
 
+    def __repr__(self):
+        n_to = self.n_to
+        s_to = self.s_to
+        e_to = self.e_to
+        w_to = self.w_to
+        # if n_to:
+        #     n_to = self.n_to.id
+        # if s_to:
+        #     s_to = self.s_to.id
+        # if e_to:
+        #     e_to = self.e_to.id
+        # if w_to:
+        #     w_to = self.w_to.id
+
+        return f"id:{self.id}, name:{self.name}, description:{self.description}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}, x:{self.x}, y:{self.y}"
+
     def connect_rooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -24,14 +40,20 @@ class Room(models.Model):
         except Room.DoesNotExist:
             print("That room does not exist")
         else:
+            reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
+            reverse_dir = reverse_dirs[direction]
             if direction == "n":
                 self.n_to = destinationRoomID
+                destinationRoom.s_to = self.id
             elif direction == "s":
                 self.s_to = destinationRoomID
+                destinationRoom.n_to = self.id
             elif direction == "e":
                 self.e_to = destinationRoomID
+                destinationRoom.w_to = self.id
             elif direction == "w":
                 self.w_to = destinationRoomID
+                destinationRoom.e_to = self.id
             else:
                 print("Invalid direction")
                 return
@@ -143,8 +165,8 @@ class World(models.Model):
 
             # print(horDirction)
             # Create a room in the given direction
-            room = Room(room_count, currName,
-                        roomDescription, x, y)
+            room = Room( title=currName,
+                        description=roomDescription, x=x,y=y)
             # Note that in Django, you'll need to save the room after you create it
 
             # Save the room in the World grid
