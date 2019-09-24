@@ -16,9 +16,7 @@ class Room(models.Model):
     w_to = models.IntegerField(default= -1)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
-    grid = None
-    width = models.IntegerField(default=0)
-    height = models.IntegerField(default=0)
+
 
     def __repr__(self):
         # n_to = self.n_to
@@ -58,6 +56,9 @@ class Room(models.Model):
 
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+
+    def testFunc(self):
+        print('this is the test')
 
 
 class Player(models.Model):
