@@ -1,7 +1,7 @@
 .DS_Store
 .env
 # because reads the requirements first and I haven't hit stretch
-# requirements.txt
+requirements.txt
 
 
 # Byte-compiled / optimized / DLL files
