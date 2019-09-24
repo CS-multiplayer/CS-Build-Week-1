@@ -18,19 +18,10 @@ class Room(models.Model):
     y = models.IntegerField(default=0)
 
     def __repr__(self):
-        n_to = self.n_to
-        s_to = self.s_to
-        e_to = self.e_to
-        w_to = self.w_to
-        # if n_to:
-        #     n_to = self.n_to.id
-        # if s_to:
-        #     s_to = self.s_to.id
-        # if e_to:
-        #     e_to = self.e_to.id
-        # if w_to:
-        #     w_to = self.w_to.id
-
+        # n_to = self.n_to
+        # s_to = self.s_to
+        # e_to = self.e_to
+        # w_to = self.w_to
         return f"id:{self.id}" #, name:{self.name}, description:{self.description}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}, x:{self.x}, y:{self.y}"
 
     def connect_rooms(self, destinationRoom, direction):
@@ -171,16 +162,15 @@ class World(models.Model):
 
             # Save the room in the World grid
             grid[y][x] = room
-            # print(grid[y][x].description)
-            room.save()
+
+            # room.save()
 
             # Connect the new room to the previous room
             if previous_room is not None:
                 previous_room.connect_rooms(room, room_direction)
             if nextDi < 10 and y > 0 and grid[y-1][x]:
                 room.connect_rooms(grid[y-1][x], "s")
-            # elif nextDi < 5 and grid[y][x+1]:
-            #     room.connect_rooms(grid[y][x+1], "e")
+
             # Update iteration variables
             previous_room = room
             room_count += 1
