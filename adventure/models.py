@@ -4,16 +4,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
-
+import random
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(
         max_length=500, default="DEFAULT DESCRIPTION")
-    n_to = models.IntegerField(default=0)
-    s_to = models.IntegerField(default=0)
-    e_to = models.IntegerField(default=0)
-    w_to = models.IntegerField(default=0)
+    n_to = models.IntegerField(default= -1)
+    s_to = models.IntegerField(default= -1)
+    e_to = models.IntegerField(default= -1)
+    w_to = models.IntegerField(default= -1)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
 
@@ -63,7 +63,7 @@ class Player(models.Model):
 
 
 class World(models.Model):
-    grid = models.ArrayField(default=[])
+    grid = None
     width = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
 
@@ -86,7 +86,7 @@ class World(models.Model):
 
         # Start generating rooms to the east
         direction = 1  # 1: east, -1: west
-        horDirction = 1  # 1: up, -1: down
+        horDirection = 1  # 1: up, -1: down
 
         # Generated Room Names
         roomAdj = ["Dark", "Old", "Old, Intact", "Loathsome", "Horrid",
@@ -105,24 +105,24 @@ class World(models.Model):
         while room_count < num_rooms:
             # Calculate the direction of the room to be created
             nextDi = random.randint(0, 18)
-            canDown = horDirction <= 0
-            canUp = horDirction >= 0
+            canDown = horDirection <= 0
+            canUp = horDirection >= 0
 
             if nextDi > 11 and canDown and not self.grid[y-1][x] and y > 1 and x < size_x - 2 and x > 1:
                 room_direction = "s"
-                horDirction = -1
+                horDirection = -1
                 y -= 1
             elif x > 1 and nextDi > 16 and canUp:
                 room_direction = "n"
-                horDirction = 1
+                horDirection = 1
                 y += 1
             elif direction > 0 and x < size_x - 1 and not self.grid[y][x+1]:
                 room_direction = "e"
-                horDirction = 0
+                horDirection = 0
 
                 x += 1
             elif direction < 0 and x > 0 and not self.grid[y][x-1]:
-                horDirction = 0
+                horDirection = 0
                 room_direction = "w"
                 x -= 1
             else:
@@ -134,7 +134,7 @@ class World(models.Model):
                         previous_room = self.grid[y][x]
                 y += 1
                 room_direction = "n"
-                horDirction = 1
+                horDirection = 1
                 direction *= -1
 
             currName = random.choice(roomAdj) + " " + random.choice(roomNames)

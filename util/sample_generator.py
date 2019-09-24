@@ -128,7 +128,7 @@ class World:
 
             # Save the room in the World grid
             self.grid[y][x] = room
-            # print(self.grid[y][x].description)
+            # print(self.grid[y][x].name, room)
 
             # Connect the new room to the previous room
             if previous_room is not None:
@@ -205,4 +205,4 @@ w.print_rooms()
 
 print(w.grid[0][10])
 print(
-    f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
