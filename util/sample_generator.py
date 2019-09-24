@@ -87,11 +87,11 @@ class World:
             canDown = horDirction <= 0
             canUp = horDirction >= 0
 
-            if nextDi > 13 and canDown and not self.grid[y-1][x] and y > 1 and x < size_x - 2 and x > 1:
+            if nextDi > 11 and canDown and not self.grid[y-1][x] and y > 1 and x < size_x - 2 and x > 1:
                 room_direction = "s"
                 horDirction = -1
                 y -= 1
-            elif x > 1 and nextDi > 14 and canUp:
+            elif x > 1 and nextDi > 16 and canUp:
                 room_direction = "n"
                 horDirction = 1
                 y += 1
@@ -128,11 +128,12 @@ class World:
 
             # Save the room in the World grid
             self.grid[y][x] = room
+            # print(self.grid[y][x].description)
 
             # Connect the new room to the previous room
             if previous_room is not None:
                 previous_room.connect_rooms(room, room_direction)
-            if nextDi < 5 and y > 0 and self.grid[y-1][x]:
+            if nextDi < 10 and y > 0 and self.grid[y-1][x]:
                 room.connect_rooms(self.grid[y-1][x], "s")
             # elif nextDi < 5 and self.grid[y][x+1]:
             #     room.connect_rooms(self.grid[y][x+1], "e")
@@ -198,7 +199,7 @@ class World:
 w = World()
 num_rooms = 115
 width = 15
-height = 20
+height = 15
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
