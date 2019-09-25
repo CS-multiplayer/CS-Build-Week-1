@@ -1,61 +1,5 @@
-# Sample Python code that can be used to generate rooms in
-# a zig-zag pattern.
-#
-# You can modify generate_rooms() to create your own
-# procedural generation algorithm and use print_rooms()
-# to see the world.
 import random
 from adventure.models import Room, Map
-# class Room:
-#     def __init__(self, title, description, x, y):
-#         self.title = title
-#         self.description = description
-#         self.n_to = None
-#         self.s_to = None
-#         self.e_to = None
-#         self.w_to = None
-#         self.x = x
-#         self.y = y
-#     def __repr__(self):
-#         # n_to = self.n_to
-#         # s_to = self.s_to
-#         # e_to = self.e_to
-#         # w_to = self.w_to
-#         return f"name:{self.title}, description:{self.description}, x:{self.x}, y:{self.y}, n_to:{self.n_to.id}, s_to:{self.s_to.id}, e_to:{self.e_to.id}, w_to:{self.w_to.id}"
-#     def connect_rooms(self, destinationRoom, direction):
-#         # destinationRoomID = destinationRoom.id
-#         # try:
-#         #     destinationRoom = Room.objects.get(id=destinationRoomID)
-#         # except Room.DoesNotExist:
-#         #     print("That room does not exist")
-#         # else:
-#         #     reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
-#         #     reverse_dir = reverse_dirs[direction]
-#         #     if direction == "n":
-#         #         self.n_to = destinationRoomID
-#         #         destinationRoom.s_to = self.id
-#         #     elif direction == "s":
-#         #         self.s_to = destinationRoomID
-#         #         destinationRoom.n_to = self.id
-#         #     elif direction == "e":
-#         #         self.e_to = destinationRoomID
-#         #         destinationRoom.w_to = self.id
-#         #     elif direction == "w":
-#         #         self.w_to = destinationRoomID
-#         #         destinationRoom.e_to = self.id
-#         #     else:
-#         #         print("Invalid direction")
-#         #         return
-#         #     self.save()
-#         reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
-#         reverse_dir = reverse_dirs[direction]
-#         setattr(self, f"{direction}_to", destinationRoom)
-#         setattr(destinationRoom, f"{reverse_dir}_to", self)
-#     def get_room_in_direction(self, direction):
-#         '''
-#         Connect two rooms in the given n/s/e/w direction
-#         '''
-#         return getattr(self, f"{direction}_to")
 class World:
     grid = ()
     width = 0
@@ -122,7 +66,6 @@ class World:
             currName = random.choice(roomAdj) + " " + random.choice(roomNames)
             roomDescription = random.choice(
                 descStarters) + " " + currName.lower() + ". " + random.choice(descInfo)
-            # print(horDirction)
             # Create a room in the given direction
             room = Room(title=currName,
                         description=roomDescription, x=x, y=y)
@@ -140,70 +83,12 @@ class World:
             previous_room = room
             room_count += 1
         self.grid = f"{grid}"
-        # self.save()
-    # def print_rooms(self):
-    #     '''
-    #     Print the rooms in room_grid in ascii characters.
-    #     '''
-    #     # print(self.grid[0][0].name, self.grid[0][0].description)
-    #     # Add top border
-    #     str = "# " * ((3 + self.width * 5) // 2) + "\n"
-    #     # The console prints top to bottom but our array is arranged
-    #     # bottom to top.
-    #     #
-    #     # We reverse it so it draws in the right direction.
-    #     reverse_grid = list(self.grid)  # make a copy of the list
-    #     reverse_grid.reverse()
-    #     for row in reverse_grid:
-    #         # PRINT NORTH CONNECTION ROW
-    #         str += "#"
-    #         for room in row:
-    #             if room is not None and room.n_to is not None:
-    #                 str += "  |  "
-    #             else:
-    #                 str += "     "
-    #         str += "#\n"
-    #         # PRINT ROOM ROW
-    #         str += "#"
-    #         for room in row:
-    #             if room is not None and room.w_to is not None:
-    #                 str += "-"
-    #             else:
-    #                 str += " "
-    #             if room is not None:
-    #                 str += f"{room.id}".zfill(3)
-    #             else:
-    #                 str += "   "
-    #             if room is not None and room.e_to is not None:
-    #                 str += "-"
-    #             else:
-    #                 str += " "
-    #         str += "#\n"
-    #         # PRINT SOUTH CONNECTION ROW
-    #         str += "#"
-    #         for room in row:
-    #             if room is not None and room.s_to is not None:
-    #                 str += "  |  "
-    #             else:
-    #                 str += "     "
-    #         str += "#\n"
-
-    #     # Add bottom border
-    #     str += "# " * ((3 + self.width * 5) // 2) + "\n"
-
-    #     # Print string
-    #     print(str)
 Room.objects.all().delete()
 w = World()
 num_rooms = 115
 width = 15
 height = 15
 w.generate_rooms(width, height, num_rooms)
-# w.print_rooms()
-# print(w.grid[0][0])
-# print(
-#     f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n\n\n")
-# print(w.grid)
 m = Map(map=w.grid)
 m.save()
 print(m.map)
