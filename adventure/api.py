@@ -20,8 +20,12 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'room_id': room.id}, safe=True)
 
+@api_view(["GET"])
+def getroom(request):
+    room = Room.objects.get(request.data.id)
+    return JsonResponse({'room': room})
 
 # @csrf_exempt
 @api_view(["POST"])
