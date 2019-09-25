@@ -80,10 +80,7 @@ class Player(models.Model):
 
 class Map(models.Model):
     map = models.TextField()
-
-
-
-
+    
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
     if created:

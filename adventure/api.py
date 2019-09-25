@@ -24,8 +24,9 @@ def initialize(request):
 
 @api_view(["GET"])
 def getroom(request):
-    room = Room.objects.get(request.data.id)
-    return JsonResponse({'room': room}, safe=True)
+    print(request.body)
+    room = Room.objects.get(id = json.loads(request.body)['id'])
+    return JsonResponse({'n_to': room.n_to, 's_to': room.s_to, 'e_to': room.e_to, 'w_to': room.w_to, 'x': room.x, 'y': room.y}, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
