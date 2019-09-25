@@ -1,6 +1,6 @@
 import random 
 from django.contrib.auth.models import User
-from adventure.models import Room, Player, World
+from adventure.models import Room, Player
 
 
 Room.objects.all().delete()

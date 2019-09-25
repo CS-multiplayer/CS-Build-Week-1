@@ -78,6 +78,8 @@ class Player(models.Model):
             self.initialize()
             return self.room()
 
+class Map(models.Model):
+    map = models.TextField()
 
 
 
