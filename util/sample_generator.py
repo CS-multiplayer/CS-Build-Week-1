@@ -1,5 +1,5 @@
 import random
-from adventure.models import Room, Map
+from adventure.models import Room
 Room.objects.all().delete()
 class World:
     def __init__(self):
@@ -85,11 +85,14 @@ class World:
             previous_room = room
             room_count += 1
         self.grid = f"{grid}"
-# w = World()
+        return
+
+print('hello')
+newWorld = World()
 num_rooms = 115
 width = 15
 height = 15
-World().generate_rooms(width, height, num_rooms)
+newWorld.generate_rooms(width, height, num_rooms)
 # m = Map(map=w.grid)
 # m.save()
-print(World().grid)
+print(newWorld.grid)
