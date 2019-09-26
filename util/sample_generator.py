@@ -1,11 +1,14 @@
 import random
-from adventure.models import Room, Map
-Room.objects.all().delete()
+from adventure.models import Room
+Room.objects.all().delete()  # h
+
+
 class World:
     def __init__(self):
         self.grid = ''
         self.width = 0
         self.height = 0
+
     def generate_rooms(self, size_x, size_y, num_rooms):
         # Initialize the grid
         grid = [None] * size_y
@@ -77,19 +80,31 @@ class World:
             room.save()
             # Connect the new room to the previous room
             if previous_room is not None:
+                reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
+                reverse_dir = reverse_dirs[room_direction]
                 previous_room.connect_rooms(room, room_direction)
+                room.connect_rooms(previous_room, reverse_dir)
             if nextDi < 10 and y > 0 and grid[y-1][x]:
                 room.connect_rooms(grid[y-1][x], "s")
+                grid[y-1][x].connect_rooms(room, "n")
             # Update iteration variables
+            if previous_room:
+                previous_room.save()
             room.save()
             previous_room = room
             room_count += 1
         self.grid = f"{grid}"
-# w = World()
-num_rooms = 115
-width = 15
-height = 15
-World().generate_rooms(width, height, num_rooms)
+        return
+
+
+print('hello')
+newWorld = World()
+num_rooms = 3
+width = 3
+height = 3
+newWorld.generate_rooms(width, height, num_rooms)
 # m = Map(map=w.grid)
 # m.save()
-print(World().grid)
+print(newWorld.grid)
+print(Room.objects.first().n_to, Room.objects.first().s_to,
+      Room.objects.first().e_to, Room.objects.first().w_to)
