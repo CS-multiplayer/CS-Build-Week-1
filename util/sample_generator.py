@@ -1,5 +1,5 @@
 import random
-from adventure.models import Room
+from adventure.models import Room, Player
 Room.objects.all().delete()
 class World:
     def __init__(self):
