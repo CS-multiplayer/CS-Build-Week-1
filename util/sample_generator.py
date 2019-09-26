@@ -1,5 +1,5 @@
 import random
-from adventure.models import Room
+from adventure.models import Room, Player
 Room.objects.all().delete()
 class World:
     def __init__(self):
@@ -77,22 +77,30 @@ class World:
             room.save()
             # Connect the new room to the previous room
             if previous_room is not None:
+                reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
+                reverse_dir = reverse_dirs[room_direction]
                 previous_room.connect_rooms(room, room_direction)
+                room.connect_rooms(previous_room, reverse_dir)
             if nextDi < 10 and y > 0 and grid[y-1][x]:
                 room.connect_rooms(grid[y-1][x], "s")
+                grid[y-1][x].connect_rooms(room, "n")
             # Update iteration variables
+            if previous_room:
+                previous_room.save()
             room.save()
             previous_room = room
             room_count += 1
         self.grid = f"{grid}"
         return
 
-print('hello')
+
 newWorld = World()
 num_rooms = 115
 width = 15
-height = 15
+height = 16
 newWorld.generate_rooms(width, height, num_rooms)
-# m = Map(map=w.grid)
-# m.save()
 print(newWorld.grid)
+players = Player.objects.all()
+for p in players:
+    p.current_rooms = Room.objects.first()
+    p.save()
