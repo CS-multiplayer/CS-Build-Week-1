@@ -30,6 +30,15 @@ def getroom(request):
     room = Room.objects.get(id=json.loads(request.body)['id'])
     return JsonResponse({'id':room.id, 'n_to': room.n_to, 's_to': room.s_to, 'e_to': room.e_to, 'w_to': room.w_to, 'x': room.x, 'y': room.y}, safe=True)
 
+@api_view(["GET"])
+def getallrooms(request):
+    print(request.body)
+    r = Room.objects.all()
+    result = ''
+    for room in r:
+        result += room.__repr__() + ', '
+    return JsonResponse({'rooms': result}, safe=True)
+
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
