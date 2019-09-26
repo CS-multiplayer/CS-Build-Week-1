@@ -24,7 +24,7 @@ class Room(models.Model):
         e_to = self.e_to
         w_to = self.w_to
         # , name:{self.name}, description:{self.description}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}, x:{self.x}, y:{self.y}"
-        return f"[id:{self.id}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}]"
+        return f"{{id:{self.id}, n_to:{n_to}, s_to:{s_to}, e_to:{e_to}, w_to:{w_to}, x:{self.x}, y:{self.y}}}"
 
     def connect_rooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
