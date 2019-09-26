@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'django_truncate',
+    # 'django_truncate',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -94,19 +94,21 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         'default': {
-            # 'ENGINE': 'django.db.backends.sqlite3',
-            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME'),
+            # 'NAME': config('DB_NAME'),
+            # 'PASSWORD': config('DB_PASSWORD'),
         }
     }
 else:
-    DATABASES = {}
-    DATABASES['default'] = dj_database_url.config(conn_max_age=500, ssl_require=True)
-    DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'),conn_max_age=500)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
