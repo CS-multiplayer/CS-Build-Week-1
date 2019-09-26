@@ -1,14 +1,11 @@
 import random
-from adventure.models import Room
-Room.objects.all().delete()  # h
-
-
+from adventure.models import Room, Player
+Room.objects.all().delete()
 class World:
     def __init__(self):
         self.grid = ''
         self.width = 0
         self.height = 0
-
     def generate_rooms(self, size_x, size_y, num_rooms):
         # Initialize the grid
         grid = [None] * size_y
@@ -97,14 +94,13 @@ class World:
         return
 
 
-print('hello')
 newWorld = World()
-num_rooms = 3
-width = 3
-height = 3
+num_rooms = 115
+width = 15
+height = 16
 newWorld.generate_rooms(width, height, num_rooms)
-# m = Map(map=w.grid)
-# m.save()
 print(newWorld.grid)
-print(Room.objects.first().n_to, Room.objects.first().s_to,
-      Room.objects.first().e_to, Room.objects.first().w_to)
+players = Player.objects.all()
+for p in players:
+    p.current_rooms = Room.objects.first()
+    p.save()
